@@ -1,0 +1,21 @@
+server:
+  port: 8000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://lziqi.top:3306/demo?serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    username:
+      root
+    password:
+      CHEN1109ran@
+  jpa:
+    database-platform:
+      org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate.ddl-auto:
+      update
+    show-sql:
+      false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

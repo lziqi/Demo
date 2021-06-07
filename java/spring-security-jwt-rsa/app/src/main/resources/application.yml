@@ -1,0 +1,12 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: app
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  security:
+    basic:
+      enabled: false

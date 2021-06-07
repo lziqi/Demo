@@ -1,0 +1,31 @@
+server:
+  port: 8000
+
+rsa:
+  key:
+    public: "/home/rsa/pub_key"
+
+spring:
+  application:
+    name: gateway
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo?serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    username:
+      root
+    password:
+      123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: app-route
+          uri: lb://app
+          predicates:
+            - Path=/app
+
+logging:
+  level:
+    org.springframework.cloud.gateway: trace

@@ -1,0 +1,15 @@
+server:
+  port: 8001
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo?serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    username:
+      root
+    password:
+      123456
+rsa:
+  key:
+    public: "/home/rsa/pub_key"
+    private: "/home/rsa/pri_key"
