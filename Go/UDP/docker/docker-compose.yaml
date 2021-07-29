@@ -1,0 +1,9 @@
+version: '3.0'
+services:
+  go-udp:
+    image: go-udp
+    container_name: go-udp
+    build: .
+    ports:
+      - 20002:20002/udp
+    restart: always
