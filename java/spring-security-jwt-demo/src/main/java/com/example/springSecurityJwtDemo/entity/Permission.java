@@ -3,7 +3,7 @@ package com.example.springSecurityJwtDemo.entity;
 import lombok.Data;
 
 @Data
-public class PermissionEntity {
+public class Permission {
 	private Integer id;
 	// 权限名称
 	private String permName;

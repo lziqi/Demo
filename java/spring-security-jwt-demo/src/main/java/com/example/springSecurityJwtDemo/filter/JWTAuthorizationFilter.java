@@ -21,18 +21,24 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
     }
 
+    /**
+     * 从http请求头中获取token信息
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
 
-        String tokenHeader = request.getHeader("token");
-        /*如果请求头中有token，则进行解析，并且设置认证信息*/
-        SecurityContextHolder.getContext().setAuthentication(getAuthentication(tokenHeader));
+        if (request.getHeader("token") != null) {
+            String tokenHeader = request.getHeader("token");
+            SecurityContextHolder.getContext().setAuthentication(getAuthentication(tokenHeader));
+        }
         super.doFilterInternal(request, response, chain);
     }
 
-    /*这里从token中获取用户信息并新建一个token*/
+    /**
+     * 获取token对应的用户，获取用户对应的权限 add权限
+     */
     private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) {
         String username = JwtUtils.getUsername(tokenHeader);
         if (username != null) {

@@ -1,6 +1,6 @@
 package com.example.springSecurityJwtDemo.filter;
 
-import com.example.springSecurityJwtDemo.entity.UserEntity;
+import com.example.springSecurityJwtDemo.entity.User;
 import com.example.springSecurityJwtDemo.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,12 +28,14 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         super.setFilterProcessesUrl("/auth/login");
     }
 
-    /*接收并解析用户凭证*/
+    /**
+     * 获取http请求中的user数据，使用authenticate验证账户是否正确
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            UserEntity user = new ObjectMapper().readValue(req.getInputStream(), UserEntity.class);
+            User user = new ObjectMapper().readValue(req.getInputStream(), User.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -46,18 +48,22 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
-    /*用户成功登录后，调用方法，在这个方法里生成token*/
+    /**
+     * 登录成功，生成token
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-        UserEntity userEntity = (UserEntity) auth.getPrincipal();
+        User userEntity = (User) auth.getPrincipal();
         String token = JwtUtils.generateJsonWebToken(userEntity);
         res.addHeader("token", token);
     }
 
-    /*登录失败，调用方法*/
+    /**
+     * 登录失败，返回结果
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         response.getWriter().write("authentication failed, reason: " + failed.getMessage());

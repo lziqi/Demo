@@ -1,11 +1,16 @@
 server:
-  port: 8001
+  port: 7001
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/demo?serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    url: jdbc:mysql://192.168.2.10:3306/demo?serverTimezone=GMT%2b8&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
     username:
-      root
+      demo
     password:
       123456
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  # config-location: classpath:mybatis/config/mybatis-config.xml
+  type-aliases-package: com.example.springSecurityJwtDemo.entity;

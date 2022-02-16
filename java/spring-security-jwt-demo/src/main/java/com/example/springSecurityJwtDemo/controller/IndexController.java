@@ -1,5 +1,9 @@
 package com.example.springSecurityJwtDemo.controller;
 
+import com.example.springSecurityJwtDemo.mapper.PermissionMapper;
+import com.example.springSecurityJwtDemo.mapper.UserMapper;
+import com.example.springSecurityJwtDemo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,33 +18,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class IndexController {
-    /**
-     * 跳转到首页
-     *
-     * @return
-     */
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    @GetMapping("/addMember")
-    public String addMember() {
+    @GetMapping("/hello")
+    public String hello(){
+        System.out.println(userService.findByUsername("admin"));
+        System.out.println(userService.findPermissionByUsername("admin"));
+        return "hello";
+    }
+
+    @GetMapping("/add")
+    public String add() {
         return "新增用户";
     }
 
-    @GetMapping("/delMember")
-    public String delMember() {
+    @GetMapping("/del")
+    public String del() {
         return "删除用户";
     }
 
-    @GetMapping("/updateMember")
-    public String updateMember() {
+    @GetMapping("/update")
+    public String update() {
         return "修改用户";
     }
 
-    @GetMapping("/showMember")
-    public String showMember() {
+    @GetMapping("/show")
+    public String show() {
         return "查询用户";
     }
 

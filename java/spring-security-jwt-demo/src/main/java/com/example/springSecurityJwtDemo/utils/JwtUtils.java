@@ -1,7 +1,7 @@
 package com.example.springSecurityJwtDemo.utils;
 
 import com.alibaba.fastjson.JSONArray;
-import com.example.springSecurityJwtDemo.entity.UserEntity;
+import com.example.springSecurityJwtDemo.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,7 +27,7 @@ public class JwtUtils {
     private static final String ROLE_CLAIMS = "roles";
 
 
-    public static String generateJsonWebToken(UserEntity user) {
+    public static String generateJsonWebToken(User user) {
         String token = Jwts
                 .builder()
                 .setSubject(SUBJECT)

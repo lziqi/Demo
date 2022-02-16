@@ -1,7 +1,7 @@
 package com.example.springSecurityJwtDemo.service;
 
-import com.example.springSecurityJwtDemo.entity.PermissionEntity;
-import com.example.springSecurityJwtDemo.entity.UserEntity;
+import com.example.springSecurityJwtDemo.entity.Permission;
+import com.example.springSecurityJwtDemo.entity.User;
 import com.example.springSecurityJwtDemo.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +19,25 @@ import java.util.List;
 @Service
 @Slf4j
 public class MemberServiceDetailsService implements UserDetailsService {
-
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1.根据该用户名称查询在数据库中是否存在
-        UserEntity userEntity = userMapper.findByUsername(username);
-        if (userEntity == null) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
             return null;
         }
         // 2.查询对应的用户权限
-        List<PermissionEntity> listPermission = userMapper.findPermissionByUsername(username);
+        List<Permission> listPermission = userService.findPermissionByUsername(username);
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        listPermission.forEach(user -> {
-            authorities.add(new SimpleGrantedAuthority(user.getPermTag()));
+        listPermission.forEach(_user -> {
+            authorities.add(new SimpleGrantedAuthority(_user.getPermTag()));
         });
         log.info(">>> authorities:{} <<<", authorities);
         // 3.将该权限添加到security
-        userEntity.setAuthorities(authorities);
-        return userEntity;
+        user.setAuthorities(authorities);
+        return user;
     }
 }
