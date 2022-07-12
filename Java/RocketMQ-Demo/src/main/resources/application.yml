@@ -1,0 +1,7 @@
+server:
+  port: 7001
+
+rocketmq:
+  name-server: 112.124.109.63:8208
+  producer:
+    group: producer_group
