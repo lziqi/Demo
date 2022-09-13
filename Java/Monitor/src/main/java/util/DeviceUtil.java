@@ -3,10 +3,7 @@ package util;
 import entity.*;
 import org.apache.commons.io.FileUtils;
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;
-import oshi.hardware.PhysicalMemory;
-import oshi.hardware.Sensors;
+import oshi.hardware.*;
 import oshi.util.FileUtil;
 
 import javax.annotation.PostConstruct;
@@ -80,6 +77,47 @@ public class DeviceUtil {
         disk.setDiskSize(file.getTotalSpace());
         disk.setDiskUsed(1 - ((double) file.getFreeSpace() / (double) file.getTotalSpace()));
         node.setDisk(disk);
+    }
+
+    public void getNetwork() {
+        try {
+            List<Network> networks = new Vector<>();
+
+            List<NetworkIF> networkIFS = hal.getNetworkIFs();
+            for (NetworkIF networkIF : networkIFS) {
+                /*开始计算*/
+                long start_send = networkIF.getBytesSent();
+                long start_recv = networkIF.getBytesRecv();
+                long start_timestamp = networkIF.getTimeStamp();//ms为单位
+
+                Thread.sleep(400);
+                networkIF.updateAttributes();
+
+                long end_send = networkIF.getBytesSent();
+                long end_recv = networkIF.getBytesRecv();
+                long end_timestamp = networkIF.getTimeStamp();
+                double send = (end_send - start_send) * 1.0 / (end_timestamp - start_timestamp) / 1000.0;
+                double recv = (end_recv - start_recv) * 1.0 / (end_timestamp - start_timestamp) / 1000.0;
+
+                Network network = new Network();
+                network.setSend(send);
+                network.setRecv(recv);
+                network.setName(networkIF.getName());
+                network.setType(networkIF.getIfAlias());
+
+                if (networkIF.getIPv4addr().length != 0)
+                    network.setIpv4(networkIF.getIPv4addr()[0]);
+
+                if (networkIF.getIPv6addr().length != 0)
+                    network.setIpv6(networkIF.getIPv6addr()[0]);
+
+                networks.add(network);
+            }
+
+            node.setNetwork(networks);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void getCPU() {

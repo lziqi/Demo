@@ -11,13 +11,14 @@ public class hello {
         deviceUtil.init();
 
 //        deviceUtil.getMemory();
-        deviceUtil.getCPU();
-        deviceUtil.getGPU();
+//        deviceUtil.getCPU();
+//        deviceUtil.getGPU();
+        deviceUtil.getNetwork();
         System.out.println(deviceUtil.getNode());
 
         // 结束时间
         long etime = System.currentTimeMillis();
         // 计算执行时间
-        System.out.printf("exec time：%d ms.", (etime - stime));
+        System.out.printf("exec time：%x ms.", (etime - stime));
     }
 }

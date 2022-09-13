@@ -19,6 +19,8 @@ public class Node {
 
     private CPU cpu;
 
+    private List<Network> network;
+
     private List<GPU> gpus;
 
     /*任务*/
