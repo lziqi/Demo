@@ -12,8 +12,8 @@ public class hello {
 
 //        deviceUtil.getMemory();
 //        deviceUtil.getCPU();
-//        deviceUtil.getGPU();
-        deviceUtil.getNetwork();
+        deviceUtil.getGPU();
+//        deviceUtil.getNetwork();
         System.out.println(deviceUtil.getNode());
 
         // 结束时间

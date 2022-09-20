@@ -179,7 +179,7 @@ public class DeviceUtil {
 
             for (String gpuName : gpuNames) {
                 GPU gpu = new GPU();
-                gpu.setGpuName(gpuName);
+                gpu.setName(gpuName);
                 gpus.add(gpu);
             }
 
@@ -188,6 +188,21 @@ public class DeviceUtil {
             gpuUsedInfo = gpuUsedInfo.replace(" %", "");
             String[] gpuUsedInfos = gpuUsedInfo.split("\n");
             String[] gpuUseds = Arrays.copyOfRange(gpuUsedInfos, 1, gpuUsedInfos.length);
+
+            /*温度*/
+            String gpuTempInfo = ExecUtil.execToString("nvidia-smi", null, "--query-gpu=temperature.gpu", "--format=csv");
+            String[] gpuTempInfos = gpuTempInfo.split("\n");
+            String[] gpuTemps = Arrays.copyOfRange(gpuTempInfos, 1, gpuTempInfos.length);
+
+            /*驱动器版本*/
+            String gpuDriverInfo = ExecUtil.execToString("nvidia-smi", null, "--query-gpu=driver_version", "--format=csv");
+            String[] gpuDriverInfos = gpuDriverInfo.split("\n");
+            String[] gpuDrivers = Arrays.copyOfRange(gpuDriverInfos, 1, gpuDriverInfos.length);
+
+            /*vbios版本*/
+            String gpuVbiosInfo = ExecUtil.execToString("nvidia-smi", null, "--query-gpu=vbios_version", "--format=csv");
+            String[] gpuVbiosInfos = gpuVbiosInfo.split("\n");
+            String[] gpuVbios = Arrays.copyOfRange(gpuVbiosInfos, 1, gpuVbiosInfos.length);
 
             /*总显存*/
             String memorySizeInfo = ExecUtil.execToString("nvidia-smi", null, "--query-gpu=memory.total", "--format=csv");
@@ -203,12 +218,16 @@ public class DeviceUtil {
 
             for (int i = 0; i < gpuUseds.length; i++) {
                 if (Double.parseDouble(gpuUseds[i]) != 0)
-                    gpus.get(i).setGpuUsed(Double.parseDouble(gpuUseds[i]) / 100.0);
+                    gpus.get(i).setUsed(Double.parseDouble(gpuUseds[i]) / 100.0);
                 else
-                    gpus.get(i).setGpuUsed(Double.parseDouble(gpuUseds[i]));
+                    gpus.get(i).setUsed(Double.parseDouble(gpuUseds[i]));
 
                 gpus.get(i).setMemorySize(Long.parseLong(memorySizes[i]));
                 gpus.get(i).setMemoryUsed(Long.parseLong(memoryUseds[i]));
+                gpus.get(i).setTemperature(Double.parseDouble(gpuTemps[i]));
+                gpus.get(i).setDriverVersion(gpuDrivers[i]);
+                gpus.get(i).setVbiosVersion(gpuVbios[i]);
+
             }
 
             node.setGpus(gpus);
