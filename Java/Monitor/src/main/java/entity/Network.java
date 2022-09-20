@@ -6,7 +6,7 @@ import lombok.Data;
 public class Network {
     String name;
 
-    String type;
+//    String type;
 
     double send;/*发送 mb/s*/
 

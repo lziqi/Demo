@@ -7,4 +7,5 @@ entity\Memory.class
 entity\Cluster.class
 entity\Node.class
 util\DeviceUtil.class
+entity\Network.class
 util\ExecUtil.class

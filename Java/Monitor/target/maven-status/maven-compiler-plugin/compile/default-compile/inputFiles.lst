@@ -1,6 +1,8 @@
 C:\Code\Demo\Java\Monitor\src\main\java\entity\Disk.java
 C:\Code\Demo\Java\Monitor\src\main\java\entity\Job.java
 C:\Code\Demo\Java\Monitor\src\main\java\entity\Memory.java
+C:\Code\Demo\Java\Monitor\src\main\java\entity\Network.java
+C:\Code\Demo\Java\Monitor\src\main\java\util\ExecUtil.java
 C:\Code\Demo\Java\Monitor\src\main\java\util\DeviceUtil.java
 C:\Code\Demo\Java\Monitor\src\main\java\entity\Cluster.java
 C:\Code\Demo\Java\Monitor\src\main\java\entity\CPU.java

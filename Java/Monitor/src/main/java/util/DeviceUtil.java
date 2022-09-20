@@ -42,7 +42,7 @@ public class DeviceUtil {
             Memory memory = new Memory();
             memory.setSize(hal.getMemory().getTotal());
             memory.setAvail(hal.getMemory().getAvailable());
-            memory.setUsed((double) hal.getMemory().getAvailable() / (double) hal.getMemory().getTotal());
+            memory.setUsed(1-((double) hal.getMemory().getAvailable() / (double) hal.getMemory().getTotal()));
 
             /*内存频率*/
             if (hal.getMemory().getPhysicalMemory().size() != 0) {
@@ -103,7 +103,7 @@ public class DeviceUtil {
                 network.setSend(send);
                 network.setRecv(recv);
                 network.setName(networkIF.getName());
-                network.setType(networkIF.getIfAlias());
+//                network.setType(networkIF.getIfAlias());
 
                 if (networkIF.getIPv4addr().length != 0)
                     network.setIpv4(networkIF.getIPv4addr()[0]);
@@ -141,12 +141,15 @@ public class DeviceUtil {
 
             /*获取cpu信息*/
             CPU cpu = new CPU();
-//            cpu.setCpuName(processor.getPhysicalProcessors().get(0).getIdString());
-            cpu.setCpuCores(processor.getLogicalProcessorCount());
-            cpu.setCpuUsed(1.0 - (idle * 1.0 / totalCpu));
+            cpu.setPhysicalCores(processor.getPhysicalProcessorCount());
+            cpu.setCores(processor.getLogicalProcessorCount());
+            cpu.setUsed(1.0 - (idle * 1.0 / totalCpu));
             cpu.setCurrentFreq(Arrays.stream(processor.getCurrentFreq()).average().orElse(Double.NaN));
             cpu.setPackageCount(processor.getPhysicalPackageCount());//插槽数
-            cpu.setMaxFreq(processor.getMaxFreq());
+
+            /*厂商信息*/
+            cpu.setName(processor.getProcessorIdentifier().getName());
+            cpu.setFreq(processor.getProcessorIdentifier().getVendorFreq());
 
             /*系统运行时间*/
             RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
