@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CPU {
-    String CpuName;
+    String name;
 
     /*运行时间*/
     long upTime;
@@ -19,16 +19,19 @@ public class CPU {
     double currentFreq;
 
     /*基准频率*/
-    double maxFreq;
+    double freq;
 
     /*插槽数*/
     int packageCount;
 
-    /*计算了多线程的核心数*/
-    int CpuCores;
+    /*物理核心数*/
+    int physicalCores;
 
-    /*百分比*/
-    double CpuUsed;
+    /*计算了多线程的核心数*/
+    int cores;
+
+    /*占用率*/
+    double used;
 
     /*温度*/
     double temperature;
